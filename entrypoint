@@ -57,9 +57,11 @@ function createUser() {
     fi
 
     useradd $useraddOptions $user
-    mkdir -p /home/$user
-    chown root:root /home/$user
-    chmod 755 /home/$user
+    if [ ! -d "/home/$user" ]; then
+        mkdir -p /home/$user
+        chown root:root /home/$user
+        chmod 755 /home/$user
+    fi
 
     if [ -z "$pass" ]; then
         pass="$(tr -dc A-Za-z0-9 </dev/urandom | head -c256)"
